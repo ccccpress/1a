@@ -4,7 +4,7 @@
 
 不支持图片等高级格式，支持纯文本
 
-这个主题来自v2ex中的一篇帖子，不过我找不到出处了qaq，希望作者不要生气
+这个主题来自 [寫嘢 - An beatutiful Hexo Theme](https://github.com/eatradish/Seje)
 
 [DEMO](http://cccc.press)
 
