@@ -26,8 +26,6 @@ func main() {
 				time := name[:8]
 				title := name[8 : len(name)-4]
 				time = newtime(time)
-				//fmt.Println(time)
-				//fmt.Printf("%T\n", time)
 
 				content := read(name)
 				if content != "" {
@@ -64,7 +62,7 @@ func main() {
 		f.Close()
 		return
 	}
-	fmt.Println(l, "bytes written successfully")
+	fmt.Println(l, "字节写入成功")
 	err = f.Close()
 	if err != nil {
 		fmt.Println(err)
@@ -73,15 +71,18 @@ func main() {
 }
 
 func read(name string) string {
-	f, _ := ioutil.ReadFile("./" + name)
+	f, err := ioutil.ReadFile("./" + name)
+	if err != nil {
+		fmt.Println(err)
+	}
 	return string(f)
 }
 
 func newtime(time string) string {
 	time2 := ""
+	// time 20200820
+	// 		01234567
 	for i := 0; i < len(time); i++ {
-		//20201223
-		//01234567
 		if i == 4 {
 			time2 = time2 + "年"
 		}
@@ -100,6 +101,9 @@ func newtime(time string) string {
 		}
 		if i == 7 && time[6] != '0' {
 			time2 = time2 + "十"
+		}
+		if i == 7 && time[7] == '0' {
+			continue
 		}
 
 		switch time[i] {
@@ -128,6 +132,3 @@ func newtime(time string) string {
 	time2 = time2 + "日"
 	return time2
 }
-
-//一二三四五六七八九〇十
-//年月日
