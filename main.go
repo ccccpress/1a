@@ -10,63 +10,37 @@ import (
 
 func main() {
 	fmt.Println("开始运行:")
-	html := read("./empty.html")
-	folder := `./`
-
-	files, _ := ioutil.ReadDir(folder)
-
+	emptyHTML := read("./empty.html")
+	files, _ := ioutil.ReadDir(`./`)
 	sss := ""
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		} else {
-			name := file.Name()
-			reg, _ := regexp.Compile("(\\d{8})(.+)\\.txt")
-			if reg.MatchString(name) {
-				time := name[:8]
-				title := name[8 : len(name)-4]
-				time = newtime(time)
-
-				content := read(name)
-				if content != "" {
-
-					part := strings.Split(content, "\n")
-
-					parts := strings.Join(part, "</p>\n<p>")
-
-					s := []string{"<article>\n", `<div class="title">`, title, "</div>\n", "<p>"}
-
-					s = append(s, parts[:len(parts)-3])
-
-					s = append(s, `<div class="time">`+time+"</div>\n</article>\n")
-					ss := strings.Join(s, "")
-
-					sss = ss + sss
-
-				}
+	reg, _ := regexp.Compile("(\\d{8})(.+)\\.txt")
+	for number, file := range files {
+		fmt.Println(number)
+		name := file.Name()
+		if (!file.IsDir()) && (reg.MatchString(name)) {
+			content := read(name)
+			if content == "" {
+				continue
 			}
+			time := chartime(name[:8])
+			title := name[8 : len(name)-4]
+			part := strings.Split(content+"\n", "\n")
+			parts := strings.Join(part, "</p>\n<p>")
+			article := "<article>\n" + `<div class="title">` + title + "</div>\n<p>" + parts[:len(parts)-3] + `<div class="time">` + time + "</div>\n</article>\n"
+			sss = article + sss
 		}
 	}
 
-	html = html + sss
-	fmt.Println(html)
+	indexHTML := emptyHTML + sss
 
 	f, err := os.Create("index.html")
+	defer f.Close()
 	if err != nil {
 		fmt.Println(err)
-		return
 	}
-	l, err := f.WriteString(html)
+	_, err = f.WriteString(indexHTML)
 	if err != nil {
 		fmt.Println(err)
-		f.Close()
-		return
-	}
-	fmt.Println(l, "字节写入成功")
-	err = f.Close()
-	if err != nil {
-		fmt.Println(err)
-		return
 	}
 }
 
@@ -78,7 +52,7 @@ func read(name string) string {
 	return string(f)
 }
 
-func newtime(time string) string {
+func chartime(time string) string {
 	time2 := ""
 	// time 20200820
 	// 		01234567
