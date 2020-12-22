@@ -1,14 +1,10 @@
 # 1a 极简单页博客生成器
 
-如果您觉得不满意可以联系我，如果依然不满意或者喜欢markdown可以去使用Hugo、Jekyll、Hexo
-
-不支持图片等高级格式，支持纯文本（目前支持 HTML 语法嵌入的图片）
+如果您觉得不满意可以联系我，如果依然不满意或者喜欢 markdown 可以去使用 Hugo、Jekyll、Hexo
 
 这个主题来自 [寫嘢 - An beatutiful Hexo Theme](https://github.com/eatradish/Seje)
 
 [DEMO](http://cccc.press)
-
-![cccc.press__Pixel 2_.png](https://i.loli.net/2020/12/08/BZiMKwcaUtlTgG2.png)
 
 # 使用
 
@@ -16,12 +12,8 @@
 
 - `empty.html` 空白主题，注意修改 `html-title`
 - `index.html` 生成的目标文件，上传到 oss 或者 gh-page
-- `20200827名称.txt` 博客内容，日期必须为8位，名称为 `index.html` 中的 `article-title` ，必须以 `.txt` 结尾
+- `20200827名称.txt` 博客内容，日期必须为8位，`名称` 为 `index.html` 中的 `article-title` ，必须以 `.txt` 结尾
 - `1a` 程序本体，双击或在命令行均可
-
-# 主题
-
-自行修改 `empty.html`
 
 # 编译
 
@@ -43,3 +35,14 @@ go build main.go
 
 - [x] ~~目前还有个bug，txt最后必须以回车结尾（也就是说最后要空一行），不然会吞字~~ 已解决
 
+# Actions
+
+fork 一份到自己的仓库
+
+注意修改以下内容
+
+- CHAME（域名）（删除或改为你自己的域名）
+- empty.html 中的 html-title（网站名称）
+- 我本人的 txt 部分（博客内容）
+
+等一小会会有 fork 选项，生成的文件在另外一个分支，选择这个分支开启 github-page 服务即可
