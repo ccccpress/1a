@@ -1,24 +1,24 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"regexp"
 	"strings"
 )
 
 func main() {
-	fmt.Println("开始运行:")
+	log.Println("@cccc.press")
 	//如果要修改主题，直接修改 empty.html 就行
 	emptyHTML := read("./empty.html")
 	//所有文件都在同一级目录下
 	files, _ := ioutil.ReadDir(`./`)
-	sss := ""
+	articles := ""
 	//匹配以 20201212 这样日期开头的 txt 文件
 	reg, _ := regexp.Compile("(\\d{8})(.+)\\.txt")
-	for number, file := range files {
-		fmt.Println(number)
+	for number := len(files) - 1; number >= 0; number-- {
+		file := files[number]
 		name := file.Name()
 		if (!file.IsDir()) && (reg.MatchString(name)) {
 			content := read(name)
@@ -33,36 +33,36 @@ func main() {
 			//在读取的 txt 最后加上换行，方便下一步按照换行分割 txt
 			part := strings.Split(content+"\n", "\n")
 			//再把分割来的片段用 <p> 组合起来
-			//在这里可以看出，我只对换行做了变换，所以 HTML 的部分标签在不换行的情况下是可以用的
+			//在这里可以看出，只对换行做了变换，所以 HTML 的部分标签在不换行的情况下是可以用的
 			//当然这个标签会被 <p> 包裹，但是一般不影响使用
 			//没有内容的空 <p> 标签不会单独占一空行，会默认无视
 			parts := strings.Join(part, "</p>\n<p>")
 			//再加点修饰，把时间和标题加上
 			article := "<article>\n" + `<div class="title">` + title + "</div>\n<p>" + parts[:len(parts)-3] + `<div class="time">` + time + "</div>\n</article>\n"
-			//这一步是调整顺序（for range 是按照从小到大排的，不调整的话，新的日期就会排在后面）
-			sss = article + sss
+			articles += article
 		}
 	}
 	//大功告成
-	indexHTML := emptyHTML + sss
+	indexHTML := emptyHTML + articles
 	//创建 index.html
 	f, err := os.Create("index.html")
 	defer f.Close()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	//写入 index.html
-	_, err = f.WriteString(indexHTML)
+	inChar, err := f.WriteString(indexHTML)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
+	log.Println(inChar, "字节写入")
 }
 
 //这个函数是读取文件名，返回文件内容
 func read(name string) string {
 	f, err := ioutil.ReadFile("./" + name)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	return string(f)
 }
