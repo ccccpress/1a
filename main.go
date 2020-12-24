@@ -17,35 +17,42 @@ func main() {
 	articles := ""
 	//匹配以 20201212 这样日期开头的 txt 文件
 	reg, _ := regexp.Compile("(\\d{8})(.+)\\.txt")
-	for number := len(files) - 1; number >= 0; number-- {
-		file := files[number]
-		name := file.Name()
-		if (!file.IsDir()) && (reg.MatchString(name)) {
-			content := read(name)
-			//内容为空的跳过
-			if content == "" {
-				continue
-			}
-			//日期就是文件名的前八位
-			time := chartime(name[:8])
-			//标题就是日期之后 .txt之前的那一部分
-			title := name[8 : len(name)-4]
-			//在读取的 txt 最后加上换行，方便下一步按照换行分割 txt
-			part := strings.Split(content+"\n", "\n")
-			//再把分割来的片段用 <p> 组合起来
-			//在这里可以看出，只对换行做了变换，所以 HTML 的部分标签在不换行的情况下是可以用的
-			//当然这个标签会被 <p> 包裹，但是一般不影响使用
-			//没有内容的空 <p> 标签不会单独占一空行，会默认无视
-			parts := strings.Join(part, "</p>\n<p>")
-			//再加点修饰，把时间和标题加上
-			article := "<article>\n" + `<div class="title">` + title + "</div>\n<p>" + parts[:len(parts)-3] + `<div class="time">` + time + "</div>\n</article>\n"
-			articles += article
+	for number := len(files); number > 0; number-- {
+		file := files[number-1]
+		//如果是文件夹就跳过
+		if file.IsDir() {
+			continue
 		}
+		name := file.Name()
+		//如果文件名不匹配也跳过
+		if !reg.MatchString(name) {
+			continue
+		}
+		content := read(name)
+		//内容为空的跳过
+		if content == "" {
+			continue
+		}
+		//日期就是文件名的前八位
+		time := chartime(name[:8])
+		//标题就是日期之后 .txt之前的那一部分
+		title := name[8 : len(name)-4]
+		//在读取的 txt 最后加上换行，方便下一步按照换行分割 txt
+		part := strings.Split(content+"\n", "\n")
+		//再把分割来的片段用 <p> 组合起来
+		//在这里可以看出，只对换行做了变换，所以 HTML 的部分标签在不换行的情况下是可以用的
+		//当然这个标签会被 <p> 包裹，但是一般不影响使用
+		//没有内容的空 <p> 标签不会单独占一空行，会默认无视
+		parts := strings.Join(part, "</p>\n<p>")
+		//再加点修饰，把时间和标题加上
+		article := "<article>\n" + `<div class="title">` + title + "</div>\n<p>" + parts[:len(parts)-3] + `<div class="time">` + time + "</div>\n</article>\n"
+		articles += article
 	}
 	//大功告成
 	indexHTML := emptyHTML + articles
 	//创建 index.html
 	f, err := os.Create("index.html")
+	//关掉，关掉，一定要关掉
 	defer f.Close()
 	if err != nil {
 		log.Println(err)
