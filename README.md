@@ -1,6 +1,6 @@
 # 1a 极简单页博客生成器
 
-如果您觉得不满意可以联系我，如果依然不满意或者喜欢 markdown 可以去使用 Hugo、Jekyll、Hexo
+找到不足可以联系我，如果依然不满意或者喜欢 markdown 可以去使用 Hugo、Jekyll、Hexo
 
 这个主题来自 [寫嘢 - An beatutiful Hexo Theme](https://github.com/eatradish/Seje)
 
@@ -11,15 +11,9 @@
 所有资源文件均在同一文件夹下
 
 - `empty.html` 空白主题，注意修改 `html-title`
-- `index.html` 生成的目标文件，上传到 oss 或者 gh-page
-- `20200827名称.txt` 博客内容，日期必须为8位，`名称` 为 `index.html` 中的 `article-title` ，必须以 `.txt` 结尾
-- `1a` 程序本体，双击或在命令行均可
+- `index.html` 生成的目标文件
+- `20200827名称.txt` 博客内容，日期为8位，`名称` 将会成为 `index.html` 中的 `article-title` 
 
-# 编译
-
-```go
-go build main.go
-```
 
 # 图片
 
@@ -29,11 +23,12 @@ go build main.go
 这是下文
 ```
 
-图片以 HTML 的语法插入，请不要在 HTML 标签中换行
+图片以 HTML 的语法插入，请不要在该标签中换行
 
 # Todo
 
-- [x] ~~目前还有个bug，txt最后必须以回车结尾（也就是说最后要空一行），不然会吞字~~ 已解决
+- [x] ~~txt最后必须以回车结尾，不然会吞字~~ 已解决
+- [x] actions
 
 # Actions
 
@@ -45,4 +40,4 @@ fork 一份到自己的仓库
 - empty.html 中的 html-title（网站名称）
 - 我本人的 txt 部分（博客内容）
 
-等一小会会有 fork 选项，生成的文件在另外一个分支，选择这个分支开启 github-page 服务即可
+等一小会会有 actions 选项，生成的文件在另外一个分支，选择这个分支开启 github-page 服务即可
