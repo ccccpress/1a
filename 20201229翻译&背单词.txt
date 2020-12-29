@@ -1,0 +1,2 @@
+背单词程序写好了，是用在命令行的，可以查单词也可以配合纸笔过单词表，有改进空间但目前也可以用
+我用的是有道翻译的详细解释版本，今天在 https://github.com/go-testfixtures/testfixtures 开了眼，Chrome 自带的谷歌翻译把 John Doe 翻译成李四
