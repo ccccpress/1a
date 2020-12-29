@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"regexp"
 	"strings"
 )
 
@@ -15,8 +14,6 @@ func main() {
 	//所有文件都在同一级目录下
 	files, _ := ioutil.ReadDir(`./`)
 	articles := ""
-	//匹配以 20201212 这样日期开头的 txt 文件
-	reg, _ := regexp.Compile("(\\d{8})(.+)\\.txt")
 	for number := len(files); number > 0; number-- {
 		file := files[number-1]
 		//如果是文件夹就跳过
@@ -25,7 +22,7 @@ func main() {
 		}
 		name := file.Name()
 		//如果文件名不匹配也跳过
-		if !reg.MatchString(name) {
+		if !match(name) {
 			continue
 		}
 		content := read(name)
@@ -72,6 +69,21 @@ func read(name string) string {
 		log.Println(err)
 	}
 	return string(f)
+}
+
+//正则表达式大材小用了，写一个自用的过滤
+func match(str string) bool {
+	if len(str) < 12 || str[len(str)-4:] != ".txt" {
+		return false
+	}
+	for _, n := range str[:8] {
+		if n > 47 && n < 58 {
+			continue
+		} else {
+			return false
+		}
+	}
+	return true
 }
 
 //这个函数是用来转换日期的，效果见下
