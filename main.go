@@ -3,7 +3,6 @@ package main
 import (
 	"io/ioutil"
 	"log"
-	"os"
 	"strings"
 )
 
@@ -13,9 +12,8 @@ func main() {
 	emptyHTML := read("./empty.html")
 	//所有文件都在同一级目录下
 	files, _ := ioutil.ReadDir(`./`)
-	articles := ""
-	for number := len(files); number > 0; number-- {
-		file := files[number-1]
+	indexHTML := emptyHTML
+	for _, file := range files {
 		//如果是文件夹就跳过
 		if file.IsDir() {
 			continue
@@ -43,23 +41,15 @@ func main() {
 		parts := strings.Join(part, "</p>\n<p>")
 		//再加点修饰，把时间和标题加上
 		article := "<article>\n" + `<div class="title">` + title + "</div>\n<p>" + parts[:len(parts)-3] + `<div class="time">` + time + "</div>\n</article>\n"
-		articles += article
+		//倒叙用css做
+		indexHTML += article
 	}
-	//大功告成
-	indexHTML := emptyHTML + articles
-	//创建 index.html
-	f, err := os.Create("index.html")
-	//关掉，关掉，一定要关掉
-	defer f.Close()
+	// 写入 index.html
+	err := ioutil.WriteFile("index.html", []byte(indexHTML), 0666)
 	if err != nil {
-		log.Println(err)
+		log.Println(err, "保存字库有误")
 	}
-	//写入 index.html
-	inChar, err := f.WriteString(indexHTML)
-	if err != nil {
-		log.Println(err)
-	}
-	log.Println(inChar, "字节写入")
+	log.Println("success")
 }
 
 //这个函数是读取文件名，返回文件内容
