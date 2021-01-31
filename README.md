@@ -4,7 +4,7 @@
 
 这个主题来自 [寫嘢 - An beatutiful Hexo Theme](https://github.com/eatradish/Seje)
 
-[DEMO](http://cccc.press)
+[DEMO](https://cccc.press)
 
 # 使用
 
@@ -29,6 +29,7 @@
 
 - [x] ~~txt最后必须以回车结尾，不然会吞字~~ 已解决
 - [x] actions
+- [ ] 阴历表示问题
 - [ ] 长篇文章跳转
 
 # Actions
