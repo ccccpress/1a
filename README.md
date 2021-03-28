@@ -4,7 +4,7 @@
 
 这个主题来自 [寫嘢 - An beatutiful Hexo Theme](https://github.com/eatradish/Seje)
 
-[DEMO](https://cccc.press)
+[DEMO](https://blog.cccc.press)
 
 # 使用
 
